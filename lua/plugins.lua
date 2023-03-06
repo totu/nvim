@@ -6,13 +6,25 @@ return require("packer").startup(function(use)
         "nvim-telescope/telescope.nvim", tag = "0.1.1",
         requires = { { "nvim-lua/plenary.nvim" } }
     }
+
+    use {'luisiacc/gruvbox-baby', branch = 'main'}
+
     use {
         "morhetz/gruvbox",
         as = "gruvbox",
         config = function()
-            vim.cmd("colorscheme gruvbox")
+            --vim.cmd("colorscheme gruvbox")
         end
     }
+
+    use({
+        'rose-pine/neovim',
+        as = 'rose-pine',
+        config = function()
+            require("rose-pine").setup()
+            --vim.cmd('colorscheme rose-pine')
+        end
+    })
 
     use("nvim-treesitter/nvim-treesitter", { run = ":TSUpdate" })
     use "mbbill/undotree"
@@ -58,7 +70,7 @@ return require("packer").startup(function(use)
     }
 
     use "tpope/vim-commentary"
-
     use "xiyaowong/nvim-transparent"
-
+    use "totu/robotframework-vim"
+    use "totu/vim-log-highlighting"
 end)

@@ -3,6 +3,10 @@ require("plugins")
 
 -- binds
 vim.g.mapleader = " "
+-- find robot definition
+vim.keymap.set("v", "<F12>", "\"sy:Telescope live_grep<cr>i^<c-r>s<esc>0v$gu")
+-- find robot usage
+vim.keymap.set("v", "<F2>", "\"sy:Telescope live_grep<cr>i<c-r>s<esc>0v$gu")
 -- because nvim devs suck (https://github.com/neovim/neovim/issues/416)
 vim.keymap.set("n", "Y", "Y")
 -- move line when visual
@@ -17,8 +21,10 @@ vim.keymap.set("n", "<leader>d", ":bd<cr>")
 -- robot shit
 vim.keymap.set("i", "<C-space>", "<space><space><space><space>")
 --vim.keymap.set("i", "<S-space>", "<space><space><space><space>")
-vim.keymap.set("n", "<leader>j", ":%!python -m json.tool<CR>")
-vim.keymap.set("n", "<leader>r", ":%!python -m robot.tidy %:p<CR>")
+vim.keymap.set("n", "<leader>j", ":%!python3 -m json.tool<CR>")
+vim.keymap.set("n", "<leader>r", ":w<CR>:!robotidy %:p<CR>:e! %<CR><cr>")
+vim.keymap.set("n", "<C-p>", ":!black %<cr><cr>")
+vim.keymap.set("n", "<leader><space>", ":nohlsearch<CR>")
 
 -- does this work over ssh?
 vim.keymap.set("n", "<leader>y", "\"+y<cr>")
@@ -43,6 +49,11 @@ vim.api.nvim_create_autocmd({ "InsertLeave" }, {
         vim.opt.relativenumber = true
     end
 })
+vim.api.nvim_create_autocmd({"BufNewFile", "BufRead" }, {
+  pattern = { "dump", "*.dump", "*.out", "*.log.*", "dump.*" },
+  command = ":set filetype=log"
+})
+
 
 -- tabs
 vim.opt.tabstop = 4
@@ -59,7 +70,7 @@ vim.opt.undodir = os.getenv("HOME") .. "/.config/nvim/undodir"
 vim.opt.undofile = true
 
 -- search
-vim.opt.hlsearch = false
+vim.opt.hlsearch = true
 vim.opt.incsearch = true
 vim.opt.ignorecase = true
 
@@ -71,10 +82,11 @@ vim.cmd("abbrev Comemtn Comment")
 -- colors
 vim.opt.termguicolors = true
 function WTF(color)
-    color = color or "gruvbox"
+    color = color or "rose-pine"
     vim.cmd.colorscheme(color)
     vim.api.nvim_set_hl(0, "Normal", { bg = "none" })
     vim.api.nvim_set_hl(0, "NormalFloat", { bg = "none" })
+    vim.api.nvim_set_hl(0, "NormalNC", { bg = "none" })
 end
 
 WTF()
