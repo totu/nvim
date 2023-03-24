@@ -73,4 +73,5 @@ return require("packer").startup(function(use)
     use "xiyaowong/nvim-transparent"
     use "totu/robotframework-vim"
     use "totu/vim-log-highlighting"
+    use "github/copilot.vim"
 end)

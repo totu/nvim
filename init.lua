@@ -10,8 +10,8 @@ vim.keymap.set("v", "<F2>", "\"sy:Telescope live_grep<cr>i<c-r>s<esc>0v$gu")
 -- because nvim devs suck (https://github.com/neovim/neovim/issues/416)
 vim.keymap.set("n", "Y", "Y")
 -- move line when visual
-vim.keymap.set("v", "J", ":m '>+1<cr>gv=gv")
-vim.keymap.set("v", "K", ":m '<-2<cr>gv=gv")
+vim.keymap.set("v", "<m-J>", ":m '>+1<cr>gv=gv")
+vim.keymap.set("v", "<m-K>", ":m '<-2<cr>gv=gv")
 -- stay on same line when J-ing
 vim.keymap.set("n", "J", "mzJ`z")
 -- go back to last buffer
@@ -25,6 +25,8 @@ vim.keymap.set("n", "<leader>j", ":%!python3 -m json.tool<CR>")
 vim.keymap.set("n", "<leader>r", ":w<CR>:!robotidy %:p<CR>:e! %<CR><cr>")
 vim.keymap.set("n", "<C-p>", ":!black %<cr><cr>")
 vim.keymap.set("n", "<leader><space>", ":nohlsearch<CR>")
+
+vim.keymap.set("n", "<leader><S-r>", ":e! %<CR>")
 
 -- does this work over ssh?
 vim.keymap.set("n", "<leader>y", "\"+y<cr>")
@@ -49,10 +51,16 @@ vim.api.nvim_create_autocmd({ "InsertLeave" }, {
         vim.opt.relativenumber = true
     end
 })
-vim.api.nvim_create_autocmd({"BufNewFile", "BufRead" }, {
+vim.api.nvim_create_autocmd({ "BufNewFile", "BufRead" }, {
   pattern = { "dump", "*.dump", "*.out", "*.log.*", "dump.*" },
   command = ":set filetype=log"
 })
+vim.api.nvim_create_autocmd({ "BufNewFile", "BufRead" }, {
+  pattern = { "*.robot" },
+  command = ":setlocal commentstring=#\\ %s"
+})
+
+--autocmd FileType robot setlocal commentstring=#\ %s
 
 
 -- tabs
